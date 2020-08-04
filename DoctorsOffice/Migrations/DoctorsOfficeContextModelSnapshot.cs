@@ -26,8 +26,6 @@ namespace DoctorsOffice.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Specialty");
-
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctors");
@@ -51,6 +49,24 @@ namespace DoctorsOffice.Migrations
                     b.ToTable("DoctorPatient");
                 });
 
+            modelBuilder.Entity("DoctorsOffice.Models.DoctorSpecialty", b =>
+                {
+                    b.Property<int>("DoctorSpecialtyId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DoctorId");
+
+                    b.Property<int>("SpecialtyId");
+
+                    b.HasKey("DoctorSpecialtyId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("SpecialtyId");
+
+                    b.ToTable("DoctorSpecialty");
+                });
+
             modelBuilder.Entity("DoctorsOffice.Models.Patient", b =>
                 {
                     b.Property<int>("PatientId")
@@ -67,6 +83,18 @@ namespace DoctorsOffice.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("DoctorsOffice.Models.Specialty", b =>
+                {
+                    b.Property<int>("SpecialtyId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("SpecialtyName");
+
+                    b.HasKey("SpecialtyId");
+
+                    b.ToTable("Specialties");
+                });
+
             modelBuilder.Entity("DoctorsOffice.Models.DoctorPatient", b =>
                 {
                     b.HasOne("DoctorsOffice.Models.Doctor", "Doctor")
@@ -77,6 +105,19 @@ namespace DoctorsOffice.Migrations
                     b.HasOne("DoctorsOffice.Models.Patient", "Patient")
                         .WithMany("Doctors")
                         .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DoctorsOffice.Models.DoctorSpecialty", b =>
+                {
+                    b.HasOne("DoctorsOffice.Models.Doctor", "Doctor")
+                        .WithMany("Specialties")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DoctorsOffice.Models.Specialty", "Specialty")
+                        .WithMany("Doctors")
+                        .HasForeignKey("SpecialtyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -1,0 +1,25 @@
+@{
+  Layout = "_Layout";
+}
+
+@using DoctorsOffice.Models;
+@model List<DoctorsOffice.Models.Specialty>;
+
+<h1>Specialties</h1>
+<hr />
+
+@if (@Model.Count == 0)
+{
+  <h3>No Specialties Have Been Added Yet</h3>
+}
+
+<h3>Specialties</h3>
+@foreach (Specialty specialty in Model)
+{
+  <div class="specialty">
+    <h4>@Html.ActionLink($"{specialty.SpecialtyName}", "Details", new { id = specialty.SpecialtyId})</h4>
+  </div>
+}
+
+<p>@Html.ActionLink("Add Specialty", "Create")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
